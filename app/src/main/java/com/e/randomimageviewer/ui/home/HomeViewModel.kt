@@ -16,17 +16,17 @@ import kotlinx.coroutines.withContext
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val fileRepository: IFileRepository) : ViewModel() {
-    private val _imagePath: MutableLiveData<Result<File>> = MutableLiveData()
-    val imagePath: LiveData<Result<File>> = _imagePath
+    private val _imagePathLivedata: MutableLiveData<Result<File>> = MutableLiveData()
+    val imagePathLiveData: LiveData<Result<File>> = _imagePathLivedata
 
     init {
-        _imagePath.value = Result.success(fileRepository.getImagePath())
+        _imagePathLivedata.value = Result.success(fileRepository.getImagePath())
     }
 
     fun saveImage(bitmap: Bitmap) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                _imagePath.postValue(fileRepository.saveImage(bitmap))
+                _imagePathLivedata.postValue(fileRepository.saveImage(bitmap))
             }
         }
     }

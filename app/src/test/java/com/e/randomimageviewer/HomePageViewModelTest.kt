@@ -48,7 +48,7 @@ class HomePageViewModelTest {
         `when`(bitmap.getHeight()).thenReturn(100)
 
         homeViewModel.saveImage(bitmap)
-        var resultLiveData = homeViewModel.imagePath.getOrAwaitValue(100)
+        var resultLiveData = homeViewModel.imagePathLiveData.getOrAwaitValue(100)
         assertEquals(Result.Status.SUCCESS, resultLiveData.status)
         assertEquals(imagePath, resultLiveData.data?.absolutePath)
     }

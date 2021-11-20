@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
 
         checkInternetConnectivity(view)
 
-        homeViewModel.imagePath.observe(viewLifecycleOwner, Observer {
+        homeViewModel.imagePathLiveData.observe(viewLifecycleOwner, Observer {
             binding.loadingText.visibility = View.INVISIBLE
             if(it.isSuccess()) {
                 showSuccessResult(it)
