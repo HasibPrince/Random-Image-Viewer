@@ -65,10 +65,12 @@ class HomeFragment : Fragment() {
         snackbar = Snackbar.make(view, getString(R.string.no_internet_connection), Snackbar.LENGTH_INDEFINITE)
         AppConnectivityManager.instance.getInternetConnectivity()
             .observe(viewLifecycleOwner, Observer {
-                if (!it.hasIternet) {
-                    snackbar.show()
-                } else {
-                    snackbar.dismiss()
+                it.hasIternet?.let { hasInternet ->
+                    if (!hasInternet) {
+                        snackbar.show()
+                    } else {
+                        snackbar.dismiss()
+                    }
                 }
             })
     }

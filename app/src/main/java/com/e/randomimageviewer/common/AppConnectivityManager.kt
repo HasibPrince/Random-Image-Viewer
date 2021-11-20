@@ -118,7 +118,7 @@ class AppConnectivityManager private constructor() : LifecycleObserver {
     }
 
     class InternetConnection {
-        var hasIternet = false
+        var hasIternet: Boolean? = null
     }
 
     companion object {
