@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
                         this.javaClass.simpleName,
                         "===> bitmap info: ${resource.width}x${resource.height}"
                     )
-
+                    homeViewModel.saveImage(resource)
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {
