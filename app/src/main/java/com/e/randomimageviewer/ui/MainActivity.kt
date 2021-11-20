@@ -1,7 +1,8 @@
-package com.e.randomimageviewer
+package com.e.randomimageviewer.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.e.randomimageviewer.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

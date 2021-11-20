@@ -1,17 +1,21 @@
-package com.e.randomimageviewer
+package com.e.randomimageviewer.ui.home
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.signature.ObjectKey
+import com.e.randomimageviewer.common.Config
 import com.e.randomimageviewer.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -31,10 +35,30 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.randomImageButton.setOnClickListener {
             Glide.with(this)
-                .load("https://picsum.photos/200/300")
+                .load(Config.RANDOM_IMAGE_URL)
                 .signature(ObjectKey(System.currentTimeMillis().toString()))
                 .into(binding.randomImage)
+            downloadImage()
         }
+    }
 
+    private fun downloadImage() {
+        Glide.with(this)
+            .asBitmap()
+            .load(Config.RANDOM_IMAGE_URL)
+            .signature(ObjectKey(System.currentTimeMillis().toString()))
+            .into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    Log.d(
+                        this.javaClass.simpleName,
+                        "===> bitmap info: ${resource.width}x${resource.height}"
+                    )
+
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    Log.e("HomeFragment", "Image downloading error")
+                }
+            })
     }
 }
