@@ -14,6 +14,7 @@ import org.junit.Assert.assertEquals
 import com.e.randomimageviewer.data.Result
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
 
@@ -38,12 +39,14 @@ class HomePageViewModelTest {
     fun setup() {
         fakeFileRepository = FakeFileRepository()
         homeViewModel = HomeViewModel(fakeFileRepository)
+        `when`(bitmap.getWidth()).thenReturn(100)
     }
 
     @Test
     fun saveBitmapTest() = mainCoroutineRule.runBlockingTest {
-        bitmap.width = 100
-        bitmap.height = 100
+        `when`(bitmap.getWidth()).thenReturn(100)
+        `when`(bitmap.getHeight()).thenReturn(100)
+
         homeViewModel.saveImage(bitmap)
         var resultLiveData = homeViewModel.imagePath.getOrAwaitValue(100)
         assertEquals(Result.Status.SUCCESS, resultLiveData.status)

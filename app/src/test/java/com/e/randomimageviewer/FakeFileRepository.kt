@@ -6,7 +6,7 @@ import java.io.File
 import com.e.randomimageviewer.data.Result
 
 class FakeFileRepository : IFileRepository {
-    private val imagePath = "/data/user/0/com.example.randomimage/files/images/randomImage.jpg"
+    private val imagePath = "/data/user/0/com.e.randomimageviewer/files/images/randomImage.jpg"
 
     override fun saveImage(bitmap: Bitmap): Result<File> {
         if(bitmap.width == 0 || bitmap.height == 0) {
