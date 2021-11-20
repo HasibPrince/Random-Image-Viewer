@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.e.randomimageviewer.R
 import com.e.randomimageviewer.common.AppConnectivityManager
 import com.e.randomimageviewer.common.ImageDownloader
 import com.e.randomimageviewer.data.Result
@@ -41,7 +42,7 @@ class HomeFragment : Fragment() {
             if(it.isSuccess()) {
                 showSuccessResult(it)
             } else {
-                Snackbar.make(requireView(), it.message ?: "Unknown error", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(requireView(), it.message ?: getString(R.string.unknown_error), Snackbar.LENGTH_LONG).show()
             }
         })
 
@@ -55,7 +56,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun checkInternetConnectivity(view: View) {
-        snackbar = Snackbar.make(view, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
+        snackbar = Snackbar.make(view, getString(R.string.no_internet_connection), Snackbar.LENGTH_INDEFINITE)
         AppConnectivityManager.instance.getInternetConnectivity()
             .observe(viewLifecycleOwner, Observer {
                 if (!it.hasIternet) {

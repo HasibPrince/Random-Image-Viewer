@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Random Image Viewer</string>
+    <string name="no_internet_connection">ইন্টারনেট সংযোগ নেই!</string>
+    <string name="unknown_error">অজানা ত্রুটি!</string>
+</resources>
