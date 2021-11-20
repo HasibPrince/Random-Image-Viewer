@@ -39,6 +39,7 @@ class HomeFragment : Fragment() {
         checkInternetConnectivity(view)
 
         homeViewModel.imagePath.observe(viewLifecycleOwner, Observer {
+            binding.loadingText.visibility = View.INVISIBLE
             if(it.isSuccess()) {
                 showSuccessResult(it)
             } else {
@@ -47,10 +48,15 @@ class HomeFragment : Fragment() {
         })
 
         binding.randomImageButton.setOnClickListener {
-            ImageDownloader.downloadImageAsBitmap(requireContext()) {
-                it?.let { bitmap ->
-                    homeViewModel.saveImage(bitmap)
-                }
+            handleRandomImageButtonClick()
+        }
+    }
+
+    private fun handleRandomImageButtonClick() {
+        binding.loadingText.visibility = View.VISIBLE
+        ImageDownloader.downloadImageAsBitmap(requireContext()) {
+            it?.let { bitmap ->
+                homeViewModel.saveImage(bitmap)
             }
         }
     }

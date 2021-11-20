@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Random Image Viewer</string>
+    <string name="app_name">র‍্যান্ডম ইমেজ ভিউয়ার</string>
     <string name="no_internet_connection">ইন্টারনেট সংযোগ নেই!</string>
     <string name="unknown_error">অজানা ত্রুটি!</string>
+    <string name="generate_random_image">র‍্যান্ডম ইমেজ তৈরি করুন</string>
+    <string name="loading">লোড হচ্ছে…</string>
 </resources>
