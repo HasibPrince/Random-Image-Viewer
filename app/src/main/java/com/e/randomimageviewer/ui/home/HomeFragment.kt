@@ -1,21 +1,20 @@
 package com.e.randomimageviewer.ui.home
 
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
-import com.bumptech.glide.signature.ObjectKey
-import com.e.randomimageviewer.common.Config
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.e.randomimageviewer.common.ImageDownloader
 import com.e.randomimageviewer.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import com.google.android.material.snackbar.Snackbar
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -33,32 +32,27 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        homeViewModel.imagePath.observe(viewLifecycleOwner, Observer {
+            if(it.isSuccess()) {
+                Glide.with(this)
+                    .load(it.data)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(binding.randomImage)
+            } else {
+                Snackbar.make(requireView(), it.message ?: "Unknown error", Snackbar.LENGTH_LONG).show()
+            }
+        })
+
         binding.randomImageButton.setOnClickListener {
-            Glide.with(this)
-                .load(Config.RANDOM_IMAGE_URL)
-                .signature(ObjectKey(System.currentTimeMillis().toString()))
-                .into(binding.randomImage)
-            downloadImage()
+            ImageDownloader.downloadImageAsBitmap(requireContext()) {
+                it?.let { bitmap ->
+                    homeViewModel.saveImage(bitmap)
+                }
+            }
         }
     }
 
-    private fun downloadImage() {
-        Glide.with(this)
-            .asBitmap()
-            .load(Config.RANDOM_IMAGE_URL)
-            .signature(ObjectKey(System.currentTimeMillis().toString()))
-            .into(object : CustomTarget<Bitmap>() {
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    Log.d(
-                        this.javaClass.simpleName,
-                        "===> bitmap info: ${resource.width}x${resource.height}"
-                    )
-                    homeViewModel.saveImage(resource)
-                }
 
-                override fun onLoadCleared(placeholder: Drawable?) {
-                    Log.e("HomeFragment", "Image downloading error")
-                }
-            })
-    }
 }

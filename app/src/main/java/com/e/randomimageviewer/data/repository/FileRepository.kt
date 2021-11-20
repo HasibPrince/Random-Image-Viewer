@@ -11,7 +11,7 @@ import java.io.File
 import javax.inject.Inject
 
 class FileRepository @Inject constructor(@ApplicationContext private val context: Context) : IFileRepository {
-    override fun saveImage(bitmap: Bitmap): Result<String> {
+    override fun saveImage(bitmap: Bitmap): Result<File> {
         val imagePath = FileInfo.getFileInfo(context)
         Log.d(this.javaClass.simpleName, "===> image path: $imagePath")
         val directory = File(FileInfo.getFileDirectory(context))
@@ -25,8 +25,8 @@ class FileRepository @Inject constructor(@ApplicationContext private val context
         return bitmap.saveToFile(imagePath);
     }
 
-    override fun getImagePath(): String {
-        return FileInfo.getFileInfo(context = context)
+    override fun getImagePath(): File {
+        return File(FileInfo.getFileInfo(context = context))
     }
 
 }
